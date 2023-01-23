@@ -68,7 +68,9 @@ contract SimpleGovernance {
         GovernanceAction storage actionToExecute = actions[actionId];
         actionToExecute.executedAt = block.timestamp;
 
-        actionToExecute.receiver.functionCallWithValue(actionToExecute.data, actionToExecute.weiAmount);
+        actionToExecute.receiver.functionCallWithValue(
+             actionToExecute.data, actionToExecute.weiAmount
+            );
 
         emit ActionExecuted(actionId, msg.sender);
     }
@@ -85,7 +87,8 @@ contract SimpleGovernance {
     function _canBeExecuted(uint256 actionId) private view returns (bool) {
         GovernanceAction memory actionToExecute = actions[actionId];
         return (
-            actionToExecute.executedAt == 0 && (block.timestamp - actionToExecute.proposedAt >= ACTION_DELAY_IN_SECONDS)
+            actionToExecute.executedAt == 0 
+            && (block.timestamp - actionToExecute.proposedAt >= ACTION_DELAY_IN_SECONDS)
         );
     }
 
