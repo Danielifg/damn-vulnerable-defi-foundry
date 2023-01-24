@@ -110,7 +110,7 @@ contract Puppet is Test {
     }
 
     /**
-     * to drain eth also, do inverse swap,debalance ETH/DVT ratio to underprice the eth
+     * to drain eth also, do inverse swap,debalance ETH/DVTratio to underprice the eth
      */
     function testExploit() public {
         vm.startPrank(attacker);

