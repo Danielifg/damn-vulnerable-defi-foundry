@@ -8,6 +8,7 @@ import {DamnValuableToken} from "../../../src/Contracts/DamnValuableToken.sol";
 import {WalletRegistry} from "../../../src/Contracts/backdoor/WalletRegistry.sol";
 import {GnosisSafe} from "gnosis/GnosisSafe.sol";
 import {GnosisSafeProxyFactory} from "gnosis/proxies/GnosisSafeProxyFactory.sol";
+import {GSafeBackdoor} from "./GSafeBackdoor.sol";
 
 contract Backdoor is Test {
     uint256 internal constant AMOUNT_TOKENS_DISTRIBUTED = 40e18;
@@ -76,13 +77,17 @@ contract Backdoor is Test {
     }
 
     function testExploit() public {
-        /**
-         * EXPLOIT START *
-         */
+        vm.startPrank(attacker);
+        GSafeBackdoor attack = new GSafeBackdoor(
+            attacker,
+            address(walletFactory),
+            address(walletRegistry),
+            payable(address(masterCopy)),
+            address(dvt)
+        );
+        attack.perform(users);
 
-        /**
-         * EXPLOIT END *
-         */
+        vm.stopPrank();
         validation();
         console.log(unicode"\n🎉 Congratulations, you can go to the next level! 🎉");
     }
