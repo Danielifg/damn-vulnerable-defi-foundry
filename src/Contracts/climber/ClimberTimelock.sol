@@ -80,7 +80,6 @@ contract ClimberTimelock is AccessControl {
 
         bytes32 id = getOperationId(targets, values, dataElements, salt);
         require(getOperationState(id) == OperationState.Unknown, "Operation already known");
-
         operations[id].readyAtTimestamp = uint64(block.timestamp) + delay;
         operations[id].known = true;
     }
@@ -88,10 +87,8 @@ contract ClimberTimelock is AccessControl {
     /**
      * Anyone can execute what has been scheduled via `schedule`
      */
-    function execute(address[] calldata targets, uint256[] calldata values, bytes[] calldata dataElements, bytes32 salt)
-        external
-        payable
-    {
+    function execute(address[] calldata targets, uint256[] calldata values,bytes[] calldata dataElements,bytes32 salt)
+        external payable {
         require(targets.length > 0, "Must provide at least one target");
         require(targets.length == values.length);
         require(targets.length == dataElements.length);
@@ -101,7 +98,7 @@ contract ClimberTimelock is AccessControl {
         for (uint8 i = 0; i < targets.length; i++) {
             targets[i].functionCallWithValue(dataElements[i], values[i]);
         }
-
+        
         require(getOperationState(id) == OperationState.ReadyForExecution);
         operations[id].executed = true;
     }

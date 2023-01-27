@@ -7,7 +7,7 @@ Building skills to become a $bug hunter or security auditor$ in the space. ðŸ•µï
 
 - Foundry forge debug
 
-    - forge debug --debug testExploit() --match-path <path to .t.sol file>
+    forge debug --debug  test/Levels/climber/Climber.t.sol --sig "testExploit()"
 
 ### Acknowledgement
 *Big thanks to [Tincho](https://twitter.com/tinchoabbate) who created the [first version of this game](https://github.com/tinchoabbate/damn-vulnerable-defi/tree/v2.0.0) and to all the fellows behind the [Foundry Framework](https://github.com/gakonst/foundry/graphs/contributors)*
