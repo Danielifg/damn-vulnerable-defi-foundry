@@ -97,7 +97,6 @@ contract TheRewarder is Test {
             address(theRewarderPool),
             address(flashLoanerPool)
         );
-        rewardead.getFunds();
         // vm.warp(block.timestamp + 10 days); // 5 days
         rewardead.attack();
 
