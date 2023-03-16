@@ -1,0 +1,8 @@
+ 
+ 
+ 
+ anvil -f <fork-url>
+ simulate tx for cost 
+ then broadcast tx --broadcast
+
+ forge script scripts/Deployment.sol --tc Deployment -vvv  --rpc-url http://127.0.0.1:8545 --private-key <pk> --broadcast

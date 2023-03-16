@@ -5,20 +5,32 @@ import "forge-std/Test.sol";
 import {DamnValuableToken} from "../src/Contracts/DamnValuableToken.sol";
 
 
-contract B {
+contract Vault {
+    bool public s_locked;
+    bytes32 private s_password;
     uint256 public a;
+
+    constructor(bytes32 password) {
+        s_locked = true;
+        s_password = password;
+    }
+
+    function unlock(bytes32 password) external {
+        if (s_password == password) {
+            s_locked = false;
+        }
+    }
 }
 
 contract AdvanceCheatcodes is Test {
-
     using stdStorage for StdStorage;
 
     DamnValuableToken internal erc20;
-    B public b;
+    Vault public vault;
     
     function setUp() public{
         erc20 = new DamnValuableToken();
-        b = new B();
+        vault = new Vault("0x124__400x0");
     }
 
     function test_writeBalance() public {
@@ -27,10 +39,14 @@ contract AdvanceCheatcodes is Test {
     }
     function test_writeArbitrary() public{
         stdstore
-            .target(address(b))
-            .sig(b.a.selector)
+            .target(address(vault))
+            .sig(vault.a.selector)
             .checked_write(100);
-        assertEq(b.a(),100);
+        assertEq(vault.a(),100);
+    }
+    
+    function invariant_CannotUnlockVault() public view {
+        assert(vault.s_locked());
     }
 
 }

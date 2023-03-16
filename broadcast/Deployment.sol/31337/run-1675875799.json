@@ -1,0 +1,53 @@
+{
+  "transactions": [
+    {
+      "hash": "0xfde480b9611f1ace3617b3d4a18da52641627603981abb6c139ec941a4dee441",
+      "transactionType": "CREATE",
+      "contractName": "A",
+      "contractAddress": "0x700b6A60ce7EaaEA56F065753d8dcB9653dbAD35",
+      "function": null,
+      "arguments": null,
+      "rpc": "http://127.0.0.1:8545",
+      "transaction": {
+        "type": "0x02",
+        "from": "0xa0ee7a142d267c1f36714e4a8f75612f20a79720",
+        "gas": "0x2090f",
+        "value": "0x0",
+        "data": "0x60806040526064600055348015601457600080fd5b50607d806100236000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c80630dbe671f14602d575b600080fd5b603560005481565b60405190815260200160405180910390f3fea2646970667358221220c9bd80f4324452513dfd0430783489c259c052117d40433dcfb575a8a1e8486664736f6c63430008110033",
+        "nonce": "0x0",
+        "accessList": []
+      },
+      "additionalContracts": []
+    }
+  ],
+  "receipts": [
+    {
+      "transactionHash": "0xfde480b9611f1ace3617b3d4a18da52641627603981abb6c139ec941a4dee441",
+      "transactionIndex": "0x0",
+      "blockHash": "0xd9c00038a53f33f2181bea69fbdb64a7ade62a73e12c567e32111e808701dcac",
+      "blockNumber": "0x1",
+      "from": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
+      "to": null,
+      "cumulativeGasUsed": "0x190d1",
+      "gasUsed": "0x190d1",
+      "contractAddress": "0x700b6A60ce7EaaEA56F065753d8dcB9653dbAD35",
+      "logs": [],
+      "status": "0x1",
+      "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "effectiveGasPrice": "0xee6b2800"
+    }
+  ],
+  "libraries": [],
+  "pending": [],
+  "path": "/Users/danielguerrero/workspace/INFOSEC/damn-vulnerable-defi-foundry/broadcast/Deployment.sol/31337/run-latest.json",
+  "returns": {
+    "0": {
+      "internal_type": "uint256",
+      "value": "100"
+    }
+  },
+  "timestamp": 1675875799,
+  "chain": 31337,
+  "multi": false,
+  "commit": "f47ddba"
+}
