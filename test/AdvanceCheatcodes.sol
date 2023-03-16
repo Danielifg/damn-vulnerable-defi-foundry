@@ -37,7 +37,7 @@ contract AdvanceCheatcodes is Test {
         // set token balance to 1e18 and update totalSupply()
         deal(address(erc20),address(this),10e18,true);
     }
-    function test_writeArbitrary() public{
+    function test_writeArbitrary() public{f
         stdstore
             .target(address(vault))
             .sig(vault.a.selector)
