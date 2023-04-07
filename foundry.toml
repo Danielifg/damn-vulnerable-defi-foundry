@@ -1,7 +1,7 @@
 [profile.default]
 verbosity = 2
 fs_permissions = [{ access = "read", path = "./" }]
-
+auto_detect_solc = true
 ## add huff support
 ffi = true
 

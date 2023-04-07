@@ -26,8 +26,7 @@ contract FreeRiderBuyer is ReentrancyGuard, IERC721Receiver {
     }
 
     // Read https://eips.ethereum.org/EIPS/eip-721 for more info on this function
-    function onERC721Received(address, address, uint256 _tokenId,
-        bytes memory)
+    function onERC721Received(address, address, uint256 _tokenId, bytes memory)
         external
         override
         nonReentrant
