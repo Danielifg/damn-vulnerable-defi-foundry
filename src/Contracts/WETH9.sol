@@ -1,4 +1,4 @@
-pragma solidity 0.8.17;
+pragma solidity >=0.7.6;
 
 contract WETH9 {
     string public constant name = "Wrapped Ether";

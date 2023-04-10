@@ -1,0 +1,37 @@
+      32 text files.
+classified 32 files      31 unique files.                              
+       1 file ignored.
+
+language,filename,blank,comment,code,"github.com/AlDanial/cloc v 1.96  T=0.02 s (1352.2 files/s 90992.8 lines/s)"
+Solidity,Contracts/puppet-v2/Interfaces.sol,62,1,214
+Solidity,Contracts/compromised/TrustfulOracle.sol,22,11,91
+Solidity,Contracts/puppet-v2/UniswapV2Library.sol,9,8,89
+Solidity,Contracts/climber/ClimberTimelock.sol,21,12,80
+Solidity,Contracts/backdoor/WalletRegistry.sol,22,21,74
+Solidity,Contracts/selfie/SimpleGovernance.sol,21,10,69
+Solidity,Contracts/the-rewarder/TheRewarderPool.sol,24,15,64
+Text,Contracts/puppet-v3/PuppetV3Pool.sol.txt,14,0,57
+Solidity,Contracts/free-rider/FreeRiderNFTMarketplace.sol,22,8,51
+Solidity,Contracts/climber/ClimberVault.sol,18,12,49
+Solidity,Contracts/WETH9.sol,14,0,47
+Solidity,Contracts/compromised/Exchange.sol,19,7,46
+Solidity,Contracts/puppet-v2/IUniswapV2Pair.sol,29,0,44
+Solidity,Contracts/puppet-v2/PuppetV2Pool.sol,17,14,41
+Solidity,Contracts/selfie/SelfiePool.sol,14,5,37
+Solidity,Contracts/free-rider/FreeRiderBuyer.sol,7,6,35
+Solidity,Contracts/unstoppable/UnstoppableLender.sol,12,7,35
+Solidity,Contracts/the-rewarder/AccountingToken.sol,9,9,34
+Solidity,Contracts/puppet/PuppetPool.sol,15,11,33
+Solidity,Contracts/side-entrance/SideEntranceLenderPool.sol,10,5,27
+Solidity,Contracts/the-rewarder/FlashLoanerPool.sol,9,6,24
+Solidity,Contracts/truster/TrusterLenderPool.sol,8,5,24
+Solidity,Contracts/DamnValuableNFT.sol,6,6,23
+Solidity,Contracts/naive-receiver/NaiveReceiverLenderPool.sol,9,7,23
+Solidity,Contracts/unstoppable/ReceiverUnstoppable.sol,7,6,23
+Solidity,Contracts/naive-receiver/FlashLoanReceiver.sol,12,9,22
+Solidity,Contracts/DamnValuableTokenSnapshot.sol,6,5,18
+Solidity,Contracts/the-rewarder/RewardToken.sol,5,6,15
+Solidity,Contracts/compromised/TrustfulOracleInitializer.sol,4,5,11
+Solidity,Contracts/DamnValuableToken.sol,2,5,7
+CSV,Contracts/lines.csv,1,0,7
+SUM,,450,222,1414
